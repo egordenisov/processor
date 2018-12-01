@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         printf ("\x1b[1;31m\nWrite file name in command line arguments\n\x1b[0m");
         return 0;
     }
-     
+
 
     //.......Copy input file to string...............
 
@@ -94,9 +94,9 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
     }
 
 
-    
+
     //.......Assembly................................
-    
+
     char buf [CMD_MAX_SIZE] = {};
     long int ip = 0;
     int32_t data = 0;
@@ -108,7 +108,7 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
     {
         #include "commands.h"
 
-        if (buf [0] == ':') 
+        if (buf [0] == ':');
     }
     fprintf (file, "%c", '\0');
 
@@ -116,7 +116,7 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
 
 
 
-    return ASSEMBLY_OK;     
+    return ASSEMBLY_OK;
 }
 
 
@@ -208,7 +208,7 @@ void UpdateString (char* stk)
             i++;
             continue;
         }
-        
+
 
         if ((stk [i] == '[') || (stk [i] == ']') || (stk [i] == '+') || (stk [i] == '-') || (stk [i] == '\n'))
         {
@@ -298,14 +298,6 @@ void GivePopParam  (const char* str, long int* ip, char* p_data, int* p_data_sz)
 
     return;
 }
-
-void new_function (void)
-{
-	return;
-}
-
-
-
 
 
 

@@ -1,0 +1,7 @@
+push 34
+pop rax
+push rax
+out
+push 10
+outsym
+end

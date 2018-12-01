@@ -2,7 +2,7 @@
 
 #include "assembly.h"
 
-
+void new_function (void);
 
 
 //*****************#Main_function**********************************//
@@ -300,7 +300,10 @@ void GivePopParam  (const char* str, long int* ip, char* p_data, int* p_data_sz)
     return;
 }
 
-
+void new_function (void)
+{
+	return;
+}
 
 
 

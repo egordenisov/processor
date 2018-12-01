@@ -2,7 +2,6 @@
 
 #include "assembly.h"
 
-void new_function (void);
 
 
 //*****************#Main_function**********************************//

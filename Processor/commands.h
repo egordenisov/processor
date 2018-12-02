@@ -21,12 +21,12 @@ CMD_DEF( push, 1,                                                               
                             break;                                                                                                  \
                                                                                                                                     \
                             case 3:                                                                                                 \
-                                    data1 = ram [ registers [ (int32_t) programm [ ip + 2]]];                                       \
+                                    data1 = *((int32_t*) (ram + registers [ (int32_t) programm [ ip + 2]]));                        \
                                     ip += 3;                                                                                        \
                             break;                                                                                                  \
                                                                                                                                     \
                             case 4:                                                                                                 \
-                                    data1 = ram [ registers [ (int32_t) programm [ip + 2]] + *((int32_t*) (programm + ip + 3))];    \
+                                    data1 = *((int32_t*) (ram + registers [ (int32_t) programm [ip + 2]] + *((int32_t*) (programm + ip + 3))));\
                                     ip += 7;                                                                                        \
                             break;                                                                                                  \
                                                                                                                                     \
@@ -66,12 +66,12 @@ CMD_DEF( pop, 2,                                                                
                             break;                                                                                                  \
                                                                                                                                     \
                             case 2:                                                                                                 \
-                                    ram [ registers [ (int32_t) programm [ ip + 2]]] = data1;                                       \
+                                    *((int32_t*) (ram + registers [ (int32_t) programm [ ip + 2]])) = data1;                        \
                                     ip += 3;                                                                                        \
                             break;                                                                                                  \
                                                                                                                                     \
                             case 3:                                                                                                 \
-                                    ram [ registers [ (int32_t) programm [ip + 2]] + *((int32_t*) (programm + ip + 3))] = data1;    \
+                                    *((int32_t*) (ram + registers [ (int32_t) programm [ip + 2]] + *((int32_t*) (programm + ip + 3)))) = data1;\
                                     ip += 7;                                                                                        \
                             break;                                                                                                  \
                                                                                                                                     \
@@ -193,7 +193,7 @@ CMD_DEF( sqrt, 14,                                                              
                         RET_EQUAL Pop (stk, &data1);                                        \
                         ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                  \
                                                                                             \
-                        RET_EQUAL Push (stk, (int32_t) (data1));                            \
+                        RET_EQUAL Push (stk, (int32_t) sqrt((double) data1));               \
                         ERROR_CHECK_STACKINPROCESSOR (func_ret == PUSH_OK);                 \
                                                                                             \
                         ip ++;                                                              \

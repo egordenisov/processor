@@ -142,6 +142,8 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
 
 
     return ASSEMBLY_OK;
+
+    #undef CMD_DEF
 }
 
 
@@ -157,7 +159,7 @@ int GiveStr (const char* str, long int* ip, char*  buf)
                    * 2 - fast forward
                    */
 
-    while (str [*ip] == '\n') (*ip) ++;
+    while ((str [*ip] == '\n') || (str [*ip] == ' ')) (*ip) ++;
 
 
     while ((str [*ip] != '\0') && (str [*ip] != '\n'))
@@ -188,7 +190,7 @@ int GiveStr (const char* str, long int* ip, char*  buf)
         (*ip)++;
     }
 
-    while (str [*ip] == '\n') (*ip) ++;
+    while ((str [*ip] == '\n') || (str [*ip] == ' ')) (*ip) ++;
 
     if ((flag == 1) || (flag == 2))
     {

@@ -14,12 +14,11 @@
 
 
 
-
 #define __DEBUG_CPU__
 
 //*****************#Functions_definitions**************************//
 
-int processor (char* programm, long int prog_size);
+int Processor (char* programm, long int prog_size);
 int ProcRetSwitch (int processor_return);
 
 

@@ -42,7 +42,7 @@ int main (int argc, char** argv)
 
     int processor_return = PROCESSOR_ERROR_UNKNOWN;
 
-    processor_return = processor (programm, prog_size);
+    processor_return = Processor (programm, prog_size);
 
     free (programm);
 
@@ -106,7 +106,7 @@ int ProcRetSwitch (int processor_return)
 
 //*****************#Processor_function*****************************//
 
-int processor (char* programm, long int prog_size)
+int Processor (char* programm, long int prog_size)
 {
 
 #define CMD_DEF( name, num, code, assem )   \
@@ -172,7 +172,7 @@ int processor (char* programm, long int prog_size)
             DeleteStk (stk);
             return PROCESSOR_ERROR_EOF;
         }    
-
+//        printf ("command = %d\n", (int) programm [ip]);
         switch (programm [ip])
         {
             #include "commands.h"

@@ -9,14 +9,94 @@ in
 pop [rax + 8]
 
 
-push [rax]
+call :1
+
+push 10
+push 10
+outsymb
+outsymb
+
+push 0
+push rbx
+je :4
+
+push rcx
 out
 
-push [rax + 4]
+push 10
+outsymb
+
+push rdx
 out
 
-push [rax + 8]
-out
+push 10
+outsymb
 
+:4
 end
 
+
+
+:1
+push [rax + 4]
+push [rax + 4]
+mul
+pop rbx
+
+push [rax]
+push [rax + 8]
+mul
+push 4
+mul
+pop rcx
+
+push rbx
+push rcx
+sub
+pop rbx
+
+push rbx
+push 0
+
+jb :2
+
+
+push rbx
+sqrt
+pop rbx
+
+push 0
+push [rax + 4]
+sub
+push rbx
+sub
+push 2
+div
+push [rax]
+div
+
+pop rcx
+
+
+push 0
+push [rax + 4]
+sub
+push rbx
+add
+push 2
+div
+push [rax]
+div
+
+pop rdx 
+
+push 2
+pop rbx
+jmp :3
+
+:2
+push 0
+pop rbx
+
+:3
+ret

@@ -45,6 +45,8 @@ CMD_DEF( push, 1,                                                               
                         GivePushParam (str, &ip, p_data, &p_data_sz);                                                               \
                                                                                                                                     \
                         fwrite (p_data, sizeof (char), p_data_sz, file);                                                            \
+                                                                                                                                    \
+                        prog_ip += p_data_sz;                                                                                       \
                     })
 
 
@@ -83,6 +85,8 @@ CMD_DEF( pop, 2,                                                                
                         GivePopParam (str, &ip, p_data, &p_data_sz);                                                                \
                                                                                                                                     \
                         fwrite (p_data, sizeof (char), p_data_sz, file);                                                            \
+                                                                                                                                    \
+                        prog_ip += p_data_sz;                                                                                       \
                     })
 
 
@@ -282,13 +286,26 @@ CMD_DEF( insymb, 43,                                                            
 */
 
 
-CMD_DEF( jmp, 100,
-                {
-                    ip = programm [ip + 1];
-                },
-
-                {
-
+CMD_DEF( jmp, 100,                                                                             \
+                {                                                                              \
+                    ip = programm [ip + 1];                                                    \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        printf ("ttt = %ld\n", *(jmp_array + (str [ip + 1] - '0')));\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                        printf ("hrenova = %ld\n", givedataret);\
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
                 })
 
 

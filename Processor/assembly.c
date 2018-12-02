@@ -67,6 +67,7 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
                         printf ("buf = %s\n", buf);             \
                         fprintf (file, "%c", (num));            \
                         (assem);                                \
+                        prog_ip++;                              \
                         continue;                               \
                     }                                           \
                 }
@@ -99,7 +100,7 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
 
     char buf [CMD_MAX_SIZE] = {};
     long int ip = 0;
-    int32_t data = 0;
+    long int prog_ip = 0;
     char p_data [30] = {};
     int p_data_sz = 0;
     long int jmp_array [10] = {};
@@ -108,7 +109,11 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
     {
         #include "commands.h"
 
-        if (buf [0] == ':');
+        if (buf [0] == ':')
+        {
+            jmp_array [buf [1] - '0'] = prog_ip;
+            printf ("jmp: prog_ip = %ld; name = %d\n", prog_ip, (int) buf [1] - '0');
+        }
     }
     fprintf (file, "%c", '\0');
 
@@ -176,12 +181,12 @@ int GiveStr (const char* str, long int* ip, char*  buf)
 
 
 
-int GiveData (const char* str, long int* ip)
+long int GiveData (const char* str, long int* ip)
 {
-    int ret_data = 0;
+    long int ret_data = 0;
     char* buf_str = NULL;
 
-    ret_data = (int) strtol ((str + (*ip)), &buf_str, 10);
+    ret_data = (long int) strtol ((str + (*ip)), &buf_str, 10);
 
     *ip = (buf_str - str);
 
@@ -210,7 +215,7 @@ void UpdateString (char* stk)
         }
 
 
-        if ((stk [i] == '[') || (stk [i] == ']') || (stk [i] == '+') || (stk [i] == '-') || (stk [i] == '\n'))
+        if ((stk [i] == '[') || (stk [i] == ']') || (stk [i] == '+') || (stk [i] == '-') || (stk [i] == '\n') || (stk [i] == ':'))
         {
             i++;
             continue;

@@ -16,7 +16,7 @@ const int ASSEMBLY_ERROR = -1;
 
 int GiveStr (const char* str, long int* ip, char*  buf);
 int Assmbly (const char* str, const char* file_name, const long int str_size);
-int GiveData (const char* str, long int* ip);
+long int GiveData (const char* str, long int* ip);
 char Find1R (const int data);
 char Find2R (const int data);
 char Find3R (const int data);

@@ -169,7 +169,7 @@ int processor (char* programm, long int prog_size)
             return PROCESSOR_ERROR_EOF;
         }
         
-        printf ("programm [ip] = %d\n", programm [ip]);
+//        printf ("programm [ip] = %d\n", programm [ip]);
         switch (programm [ip])
         {
             #include "commands.h"

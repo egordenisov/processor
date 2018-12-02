@@ -1,0 +1,22 @@
+push 34
+pop rax
+
+in
+pop [rax]
+in
+pop [rax + 4]
+in
+pop [rax + 8]
+
+
+push [rax]
+out
+
+push [rax + 4]
+out
+
+push [rax + 8]
+out
+
+end
+

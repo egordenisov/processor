@@ -112,6 +112,29 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
             jmp_array [buf [1] - '0'] = prog_ip;
 
     }
+
+    ip = 0;
+    prog_ip = 0;
+    
+    fclose (file);
+    file = fopen (file_name, "w");
+
+    if (file == NULL)
+    {
+        printf ("ERROR; Cannot repeatly open file\n\n");
+        return ASSEMBLY_ERROR;
+    }
+
+    while (GiveStr (str, &ip, buf) != -1)
+    {
+        #include "commands.h"
+
+        if (buf [0] == ':')
+            jmp_array [buf [1] - '0'] = prog_ip;
+
+    }
+
+
     fprintf (file, "%c", '\0');
 
     fclose (file);
@@ -255,10 +278,20 @@ void GivePushParam (const char* str, long int* ip, char* p_data, int* p_data_sz)
     ASM_PUSHPOP_REG( [rcx], 3, 3);
     ASM_PUSHPOP_REG( [rdx], 3, 4);
 
+    if ((data [0] >= '0') && (data [0] <= '9'))
+    {
+        p_data [0] = 1;
+        *((int*) (p_data + 1)) = (int) strtol ( data, NULL, 10);
+        *p_data_sz = 5;
+    }
 
-    p_data [0] = 1;
-    *((int*) (p_data + 1)) = (int) strtol ( data, NULL, 10);
-    *p_data_sz = 5;
+    if (data [4] == '+')
+    {
+        p_data [0] = 4;
+        p_data [1] = data [2] - 'a' + 1;
+        *((int*) (p_data + 2)) = (int) strtol ( (data + 5), NULL, 10);
+        *p_data_sz = 6;
+    }
 
     return;
 }
@@ -295,6 +328,13 @@ void GivePopParam  (const char* str, long int* ip, char* p_data, int* p_data_sz)
     ASM_PUSHPOP_REG( [rcx], 2, 3);
     ASM_PUSHPOP_REG( [rdx], 2, 4);
 
+    if (data [4] == '+')
+    {
+        p_data [0] = 3;
+        p_data [1] = data [2] - 'a' + 1;
+        *((int*) (p_data + 2)) = (int) strtol ( (data + 5), NULL, 10);
+        *p_data_sz = 6;
+    }
 
     return;
 }

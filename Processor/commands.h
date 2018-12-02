@@ -288,7 +288,7 @@ CMD_DEF( insymb, 43,                                                            
 
 CMD_DEF( jmp, 100,                                                                             \
                 {                                                                              \
-                    ip = programm [ip + 1];                                                    \
+                    ip = *((long int*) (programm + ip + 1));                                   \
                 },                                                                             \
                                                                                                \
                 {                                                                              \
@@ -317,7 +317,7 @@ CMD_DEF( je, 101,                                                               
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 == data1)                                                        \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -347,7 +347,7 @@ CMD_DEF( jne, 102,                                                              
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 != data1)                                                        \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -376,7 +376,7 @@ CMD_DEF( jb, 103,                                                               
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 < data1)                                                         \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -406,7 +406,7 @@ CMD_DEF( jbe, 104,                                                              
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 <= data1)                                                        \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -437,7 +437,7 @@ CMD_DEF( ja, 105,                                                               
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 > data1)                                                         \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -467,7 +467,7 @@ CMD_DEF( jae, 106,                                                              
                     ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
                                                                                                \
                     if (data2 >= data1)                                                        \
-                        ip = programm [ip + 1];                                                \
+                        ip = *((long int*) (programm + ip + 1));                               \
                     else                                                                       \
                         ip += 9;                                                               \
                 },                                                                             \
@@ -487,7 +487,39 @@ CMD_DEF( jae, 106,                                                              
                     prog_ip += sizeof (long int);                                              \
                 })
 
+/*
+================================================================================================
+                                Function's calls
+================================================================================================
+*/
 
+
+CMD_DEF( call, 90,                                                                                  \
+                    {                                                                               \
+                        RET_EQUAL Push (ret_stk, (int) (ip + 9));                                   \
+                        ERROR_CHECK_STACKINPROCESSOR (func_ret == PUSH_OK);                         \
+                                                                                                    \
+                        ip = *((long int*) (programm + ip + 1));                                    \
+                    },                                                                              \
+                                                                                                    \
+                    {                                                                               \
+                        fwrite (jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);      \
+                        ip += 2;                                                                    \
+                        prog_ip += sizeof (long int);                                               \
+                    })
+
+
+
+CMD_DEF( ret, 91,                                                                                   \
+                    {                                                                               \
+                        RET_EQUAL Pop (ret_stk, &data1);                                            \
+                        ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                          \
+                                                                                                    \
+                        ip = (long int) data1;                                                      \
+                    },                                                                              \
+                                                                                                    \
+                    {                                                                               \
+                    })
 
 
 
@@ -500,13 +532,13 @@ CMD_DEF( jae, 106,                                                              
 
 //*****************End_command*************************************//
 
-CMD_DEF( end, 127,                                                                          \
-                    {                                                                       \
-                        ip ++;                                                              \
-                        free (ram);                                                         \
-                        DeleteStk (stk);                                                    \
-                        return PROCESSOR_OK;                                                \
-                    },                                                                      \
-                                                                                            \
-                    {                                                                       \
+CMD_DEF( end, 127,                                                                                  \
+                    {                                                                               \
+                        ip ++;                                                                      \
+                        free (ram);                                                                 \
+                        DeleteStk (stk);                                                            \
+                        return PROCESSOR_OK;                                                        \
+                    },                                                                              \
+                                                                                                    \
+                    {                                                                               \
                     })                                               

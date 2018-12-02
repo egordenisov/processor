@@ -138,8 +138,12 @@ int processor (char* programm, long int prog_size)
     stack* stk = NULL;
     stk = CreateStk ();
     
+    stack* ret_stk = NULL;
+    ret_stk = CreateStk ();
+
     assert (stk != NULL);
-    if (stk == NULL)
+    assert (ret_stk != NULL);
+    if ((stk == NULL) || (ret_stk == NULL))
     {
         free (ram);
         return PROCESSOR_ERROR_STACK;
@@ -167,9 +171,8 @@ int processor (char* programm, long int prog_size)
             free (ram);
             DeleteStk (stk);
             return PROCESSOR_ERROR_EOF;
-        }
-        
-//        printf ("programm [ip] = %d\n", programm [ip]);
+        }    
+
         switch (programm [ip])
         {
             #include "commands.h"
@@ -177,6 +180,7 @@ int processor (char* programm, long int prog_size)
             default:
                     free (ram);
                     DeleteStk (stk);
+                    DeleteStk (ret_stk);
                     return PROCESSOR_ERROR_BINARY;
             break;
         }
@@ -187,6 +191,7 @@ int processor (char* programm, long int prog_size)
 
     free (ram);
     DeleteStk (stk);
+    DeleteStk (ret_stk);
     
     return PROCESSOR_ERROR_UNKNOWN;
 

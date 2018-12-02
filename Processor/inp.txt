@@ -6,9 +6,10 @@ push rax
 out
 
 push rax
-push 1
-add
-pop rax
+jmp :3
+:2
+
+call :4
 
 push 10
 outsymb
@@ -18,3 +19,13 @@ push 24
 jbe :1
 
 end
+
+:3
+push 1
+add
+pop rax
+jmp :2
+
+:4
+push 3
+ret

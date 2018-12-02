@@ -64,7 +64,6 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
                 {                                               \
                     if (strcmp (buf, #name) == 0)               \
                     {                                           \
-                        printf ("buf = %s\n", buf);             \
                         fprintf (file, "%c", (num));            \
                         (assem);                                \
                         prog_ip++;                              \
@@ -110,10 +109,8 @@ int Assmbly (const char* str, const char* file_name, const long int str_size)
         #include "commands.h"
 
         if (buf [0] == ':')
-        {
             jmp_array [buf [1] - '0'] = prog_ip;
-            printf ("jmp: prog_ip = %ld; name = %d\n", prog_ip, (int) buf [1] - '0');
-        }
+
     }
     fprintf (file, "%c", '\0');
 
@@ -262,8 +259,6 @@ void GivePushParam (const char* str, long int* ip, char* p_data, int* p_data_sz)
     p_data [0] = 1;
     *((int*) (p_data + 1)) = (int) strtol ( data, NULL, 10);
     *p_data_sz = 5;
-
-    printf ("GivePushParam; data = %d\n", *((int*) (p_data + 1)));
 
     return;
 }

@@ -1,11 +1,20 @@
-push 34
+push 0
 pop rax
+
+:1
 push rax
 out
-push 10
-outsym
-:2
+
+push rax
 push 1
-out
-jmp :2
+add
+pop rax
+
+push 10
+outsymb
+
+push rax
+push 24
+jbe :1
+
 end

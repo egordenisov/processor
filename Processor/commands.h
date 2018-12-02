@@ -295,18 +295,201 @@ CMD_DEF( jmp, 100,                                                              
                     if (str [ip] == ':')                                                       \
                     {                                                                          \
                         fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
-                        printf ("ttt = %ld\n", *(jmp_array + (str [ip + 1] - '0')));\
                         ip += 2;                                                               \
                     }                                                                          \
                     else                                                                       \
                     {                                                                          \
                         long int givedataret = GiveData ( str, &ip);                           \
                         fwrite ( &givedataret, sizeof (long int), 1, file);                    \
-                        printf ("hrenova = %ld\n", givedataret);\
                     }                                                                          \
                                                                                                \
                     prog_ip += sizeof (long int);                                              \
                 })
+
+
+
+CMD_DEF( je, 101,                                                                              \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 == data1)                                                        \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+
+CMD_DEF( jne, 102,                                                                             \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 != data1)                                                        \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+CMD_DEF( jb, 103,                                                                              \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 < data1)                                                         \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+
+CMD_DEF( jbe, 104,                                                                             \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 <= data1)                                                        \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+
+
+CMD_DEF( ja, 105,                                                                              \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 > data1)                                                         \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+
+CMD_DEF( jae, 106,                                                                             \
+                {                                                                              \
+                    RET_EQUAL Pop (stk, &data1);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    RET_EQUAL Pop (stk, &data2);                                               \
+                    ERROR_CHECK_STACKINPROCESSOR (func_ret == POP_OK);                         \
+                                                                                               \
+                    if (data2 >= data1)                                                        \
+                        ip = programm [ip + 1];                                                \
+                    else                                                                       \
+                        ip += 9;                                                               \
+                },                                                                             \
+                                                                                               \
+                {                                                                              \
+                    if (str [ip] == ':')                                                       \
+                    {                                                                          \
+                        fwrite ( jmp_array + (str [ip + 1] - '0'), sizeof (long int), 1, file);\
+                        ip += 2;                                                               \
+                    }                                                                          \
+                    else                                                                       \
+                    {                                                                          \
+                        long int givedataret = GiveData ( str, &ip);                           \
+                        fwrite ( &givedataret, sizeof (long int), 1, file);                    \
+                    }                                                                          \
+                                                                                               \
+                    prog_ip += sizeof (long int);                                              \
+                })
+
+
+
+
 
 
 /*

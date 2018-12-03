@@ -1,0 +1,58 @@
+in
+pop rdx
+
+push rdx
+call :1
+
+push rax
+out
+
+push 10
+outsymb
+
+end
+
+
+
+:1
+push rbx
+pop rdx
+pop rbx
+push rdx
+
+push rbx
+out
+push 10
+outsymb
+
+push rbx
+push 2
+jbe :2
+
+push rbx
+push 2
+sub
+call :1
+push rax
+pop rcx
+
+push rbx
+push 1
+sub
+call :1
+push rax
+push rcx
+add
+pop rcx
+
+push rcx
+pop rax
+jmp :3
+
+:2
+push 1
+pop rax
+
+:3
+pop rbx
+ret
